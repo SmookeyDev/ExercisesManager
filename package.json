@@ -1,0 +1,22 @@
+{
+  "name": "exercises-manager",
+  "version": "1.0.0",
+  "author": "Ícaro Sant'Ana <smookeydev@gmail.com>",
+  "private": true,
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ]
+  },
+  "scripts": {
+    "dev:server": "yarn workspace @exercises-manager/server dev",
+    "dev:client": "yarn workspace @exercises-manager/client dev",
+    "build:server": "yarn workspace @exercises-manager/server build",
+    "build:client": "yarn workspace @exercises-manager/client build",
+    "start:server": "yarn workspace @exercises-manager/server start",
+    "start:client": "yarn workspace @exercises-manager/client start",
+    "build": "yarn build:server && yarn build:client",
+    "start": "pm2 start ecosystem.config.js"
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json.schemastore.org/eslintrc",
+    "extends": [
+        "next/core-web-vitals", 
+        "plugin:tailwind/recommended"
+    ],
+    "plugins": [
+        "tailwindcss"
+    ],
+    "settings": {
+        "tailwindcss": {
+            "callees": ["cn"]
+        }
+    }
+}

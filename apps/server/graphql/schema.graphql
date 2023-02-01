@@ -1,0 +1,69 @@
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their IDs"""
+  nodes(
+    """The IDs of objects"""
+    ids: [ID!]!
+  ): [Node]!
+  me: User
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""User data"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  email: String
+  picture: String
+  provider: String
+  exercises(after: String, first: Int, before: String, last: Int): Exercise
+  trainings(after: String, first: Int, before: String, last: Int): Training
+}
+
+"""Exercise data"""
+type Exercise implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  muscle_group: String
+  description: String
+  video_url: String
+  series: String
+  reps: String
+  owner_id: String
+}
+
+type Training implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  description: String
+  executed_days: String
+  owner_id: String
+  exercises(after: String, first: Int, before: String, last: Int): Exercise
+}
+
+type Mutation {
+  loginWithOAuth(input: LoginWithOAuthInput!): LoginWithOAuthPayload
+}
+
+type LoginWithOAuthPayload {
+  me: User
+  clientMutationId: String
+}
+
+input LoginWithOAuthInput {
+  token: String!
+  clientMutationId: String
+}

@@ -18,7 +18,7 @@ let logger = pino(
     })
 );
 
-export class Logger { 
+export class Logger {
     private static shardId: number;
 
     public static info(message: string, obj?: any): void {
@@ -42,16 +42,12 @@ export class Logger {
                 })
                 .error(message);
         } else if (obj) {
-
-            let resText: string = await obj?.text();
+            const { body, status } = obj;
 
             logger
                 .child({
-                    path: obj.url,
-                    statusCode: obj.status,
-                    statusName: obj.statusText,
-                    headers: obj.headers.raw(),
-                    body: resText,
+                    status,
+                    body,
                 })
                 .error(message);
         } else {

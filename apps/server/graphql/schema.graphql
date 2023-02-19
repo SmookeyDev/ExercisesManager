@@ -11,6 +11,8 @@ type Query {
     ids: [ID!]!
   ): [Node]!
   me: User
+  ListExercises: Exercise
+  ListTrainings: Training
 }
 
 """An object with an ID"""
@@ -23,12 +25,11 @@ interface Node {
 type User implements Node {
   """The ID of an object"""
   id: ID!
-  name: String
+  firstName: String
+  lastName: String
   email: String
   picture: String
   provider: String
-  exercises(after: String, first: Int, before: String, last: Int): Exercise
-  trainings(after: String, first: Int, before: String, last: Int): Training
 }
 
 """Exercise data"""
@@ -39,8 +40,6 @@ type Exercise implements Node {
   muscle_group: String
   description: String
   video_url: String
-  series: String
-  reps: String
   owner_id: String
 }
 
@@ -49,21 +48,67 @@ type Training implements Node {
   id: ID!
   name: String
   description: String
-  executed_days: String
+  executed_days: Int
   owner_id: String
-  exercises(after: String, first: Int, before: String, last: Int): Exercise
+  exercises: [TrainingExercise]
+}
+
+type TrainingExercise {
+  exercise_id: String
+  reps: Int
+  sets: Int
+  weight: Float
+  rest: Int
+  details: Exercise
 }
 
 type Mutation {
   loginWithOAuth(input: LoginWithOAuthInput!): LoginWithOAuthPayload
+  CreateOrUpdateExercise(input: CreateOrUpdateExerciseInput!): CreateOrUpdateExercisePayload
+  CreateOrUpdateTraining(input: CreateOrUpdateTrainingInput!): CreateOrUpdateTrainingPayload
 }
 
 type LoginWithOAuthPayload {
-  me: User
+  token: String!
   clientMutationId: String
 }
 
 input LoginWithOAuthInput {
-  token: String!
+  id_token: String!
   clientMutationId: String
+}
+
+type CreateOrUpdateExercisePayload {
+  exercise: Exercise
+  clientMutationId: String
+}
+
+input CreateOrUpdateExerciseInput {
+  id: ID
+  name: String!
+  muscle_group: String!
+  description: String
+  video_url: String
+  clientMutationId: String
+}
+
+type CreateOrUpdateTrainingPayload {
+  training: Training
+  clientMutationId: String
+}
+
+input CreateOrUpdateTrainingInput {
+  id: ID
+  name: String!
+  description: String!
+  exercises: [ExerciseInput]
+  clientMutationId: String
+}
+
+input ExerciseInput {
+  exercise_id: ID!
+  reps: Int
+  sets: Int!
+  weight: Float!
+  rest: Int!
 }

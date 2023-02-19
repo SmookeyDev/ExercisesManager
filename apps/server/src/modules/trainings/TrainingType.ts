@@ -1,13 +1,44 @@
 import { connectionDefinitions, connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
-import { GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLInt, GraphQLFloat } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
 import { Training } from './TrainingModel';
 import { load } from './TrainingLoader';
 
+import { TrainingExercise } from './TrainingModel';
 import { ExerciseType } from '../exercises/ExerciseType';
-import ExerciseLoader from '../exercises/ExerciseLoader';
+import { ExerciseModel } from '../exercises/ExerciseModel';
+
+export const TrainingExerciseType = new GraphQLObjectType<TrainingExercise>({
+    name: 'TrainingExercise',
+    fields: () => ({
+        exercise_id: {
+            type: GraphQLString,
+            resolve: exercise => exercise.exercise_id,
+        },
+        reps: {
+            type: GraphQLInt,
+            resolve: exercise => exercise.reps,
+        },
+        sets: {
+            type: GraphQLInt,
+            resolve: exercise => exercise.sets,
+        },
+        weight: {
+            type: GraphQLFloat,
+            resolve: exercise => exercise.weight,
+        },
+        rest: {
+            type: GraphQLInt,
+            resolve: exercise => exercise.rest,
+        },
+        details: {
+            type: ExerciseType,
+            resolve: (exercise) => ExerciseModel.findOne({ _id: exercise.exercise_id })
+        }
+    }),
+})
 
 export const TrainingType = new GraphQLObjectType<Training>({
     name: 'Training',
@@ -22,18 +53,16 @@ export const TrainingType = new GraphQLObjectType<Training>({
             resolve: training => training.description,
         },
         executed_days: {
-            type: GraphQLString,
+            type: GraphQLInt,
             resolve: training => training.executed_days,
-            
         },
         owner_id: {
             type: GraphQLString,
-            resolve: training => training.owner_id
+            resolve: training => training.owner_id,
         },
         exercises: {
-            type: ExerciseType,
-            args: connectionArgs,
-            resolve: async (user, args, context) => await ExerciseLoader.loadAll(context, withFilter(args, { owner_id: user.owner_id })),
+            type: new GraphQLList(TrainingExerciseType),
+            resolve: (training) => training.exercises
         }
     }),
     interfaces: () => [nodeInterface],

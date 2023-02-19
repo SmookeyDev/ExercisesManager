@@ -1,12 +1,20 @@
 import mongoose, { Schema, Types, Document } from 'mongoose';
 
+export interface TrainingExercise {
+    exercise_id: Types.ObjectId;
+    reps: number;
+    sets: number;
+    weight: number;
+    rest: number;
+}
+
 export interface Training {
     name: string;
     description: string;
     executed_days: number;
     owner_id: Types.ObjectId;
-    exercises: Types.ObjectId[];
-    lastExecuted: Date;
+    exercises: TrainingExercise[]
+    lastExecuted?: Date;
 }
 
 export interface TrainingDocument extends Training, Document { }
@@ -23,18 +31,39 @@ const TrainingSchema: Schema = new Schema(
         },
         executed_days: {
             type: Number,
-            required: true,
+            required: false,
+            default: 0,
         },
         owner_id: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
         },
-        exercises: {
-            type: [Schema.Types.ObjectId],
-            default: [],
-            ref: 'Exercise',
-        },
+        exercises: [
+            {
+                exercise_id: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Exercise",
+                    required: true,
+                },
+                reps: {
+                    type: Number,
+                    required: true,
+                },
+                sets: {
+                    type: Number,
+                    required: true,
+                },
+                weight: {
+                    type: Number,
+                    required: true,
+                },
+                rest: {
+                    type: Number,
+                    required: true,
+                },
+            },
+        ],
         lastExecuted: {
             type: Date,
             default: null,

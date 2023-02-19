@@ -1,19 +1,22 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface User {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     picture: string;
     provider: string;
-    exercises: Types.ObjectId[];
-    trainings: Types.ObjectId[];
 }
 
 export interface UserDocument extends User, Document { }
 
 const UserSchema: Schema = new Schema(
     {
-        name: {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
             type: String,
             required: true,
         },
@@ -28,17 +31,7 @@ const UserSchema: Schema = new Schema(
         provider: {
             type: String,
             default: 'google',
-        },
-        exercises: {
-            type: [Schema.Types.ObjectId],
-            default: [],
-            ref: 'Exercises',
-        },
-        trainings: {
-            type: [Schema.Types.ObjectId],
-            default: [],
-            ref: 'Trainings',
-        },
+        }
     },
     {
         timestamps: {

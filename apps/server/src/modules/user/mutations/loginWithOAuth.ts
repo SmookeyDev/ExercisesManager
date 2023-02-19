@@ -1,34 +1,36 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import { mutationWithClientMutationId } from 'graphql-relay';
+import jwt from 'jsonwebtoken';
 
 import { UserModel } from '../UserModel';
-import { UserType } from '../UserType';
-
 import { verifyGoogleToken } from '../../../utils/verifyGoogleToken';
+import { UserType } from '../UserType';
 
 export const loginWithOAuth = mutationWithClientMutationId({
     name: 'LoginWithOAuth',
     inputFields: {
-        token: {
+        id_token: {
             type: new GraphQLNonNull(GraphQLString)
         }
     },
-    mutateAndGetPayload: async ({ token }) => {
-        const { email, name, picture } = await verifyGoogleToken(token);
-        let user = await UserModel.findOne({ email })
+    mutateAndGetPayload: async ({ id_token }) => {
+        const { email, firstName, lastName, picture } = await verifyGoogleToken(id_token);
 
-        if (!user) user = await UserModel.create({ email, name, picture });
-        else user = await UserModel.findOneAndUpdate({ email }, { name, picture }, { new: true });
+        if(!email) throw new Error('INVALID_GOOGLE_TOKEN');
+        
+        let user = await UserModel.findOne({ email });
 
-        return {
-            id: user?._id,
-            token
-        };
+        if (!user) user = await UserModel.create({ email, firstName, lastName, picture });
+        else user = await UserModel.findOneAndUpdate({ email }, { firstName, lastName, picture }, { new: true });
+
+        if (!user) throw new Error('USER_NOT_FOUND OR ERROR_CREATING_USER');
+ 
+        return jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
     },
     outputFields: {
-        me: {
-            type: UserType,
-            resolve: async ({ id }) => await UserModel.findById(id),
+        token: {
+            type: new GraphQLNonNull(GraphQLString),
+            resolve: async (token) => token
         }
     }
 });

@@ -4,11 +4,13 @@ import {
     RecordSource,
     Store,
     FetchFunction,
+    RequestParameters,
+    Variables
 } from 'relay-runtime';
 
 import { fetchGraphQL } from './fetchGraphQL';
 
-const fetchRelay: FetchFunction = async (params, variables) =>
+const fetchRelay: FetchFunction = async (params: RequestParameters, variables: Variables) =>
     fetchGraphQL(params.text as string, variables);
 
 export const RelayEnvironment = new Environment({

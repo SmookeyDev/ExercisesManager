@@ -6,7 +6,6 @@ import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
 import { Exercise } from './ExerciseModel';
 import { load } from './ExerciseLoader';
 
-
 export const ExerciseType = new GraphQLObjectType<Exercise>({
     name: 'Exercise',
     description: 'Exercise data',
@@ -27,14 +26,6 @@ export const ExerciseType = new GraphQLObjectType<Exercise>({
         video_url: {
             type: GraphQLString,
             resolve: exercise => exercise.video_url,
-        },
-        series: {
-            type: GraphQLString,
-            resolve: exercise => exercise.series,
-        },
-        reps: {
-            type: GraphQLString,
-            resolve: exercise => exercise.reps,
         },
         owner_id: {
             type: GraphQLString,

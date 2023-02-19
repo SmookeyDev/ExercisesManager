@@ -3,10 +3,8 @@ import mongoose, { Schema, Types, Document } from 'mongoose';
 export interface Exercise {
     name: string;
     muscle_group: string;
-    description: string | null;
-    video_url: string | null;
-    series: number;
-    reps: number | null;
+    description?: string;
+    video_url?: string;
     owner_id: Types.ObjectId;
 }
 
@@ -28,14 +26,6 @@ const ExerciseSchema: Schema = new Schema(
         },
         video_url: {
             type: String,
-            required: false,
-        },
-        series: {
-            type: Number,
-            required: true,
-        },
-        reps: {
-            type: Number,
             required: false,
         },
         owner_id: {

@@ -13,7 +13,8 @@ export const commitMutation = (environment: Environment, options: any) => {
                 }
 
                 resolve(response);
-            }
+            },
+            onError: reject,
         });
     });
 }

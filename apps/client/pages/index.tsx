@@ -2,13 +2,20 @@ import Layout from '../components/Base/Layout';
 import { CheckIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import useWindowSize from '../hooks/useWindowSize';
-import { unstable_getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import { MeQuery } from '../lib/relay/user/MeQuery';
 import { MeQuery$data } from '../__generated__/MeQuery.graphql';
-import { useLazyLoadQuery } from 'react-relay';
+import { useMutation, useLazyLoadQuery } from 'react-relay';
+import { CreateOrUpdateExerciseMutation } from '../lib/relay/exercises/CreateOrUpdateExerciseMutation';
+import { useEffect } from 'react';
+import { getToken } from 'next-auth/jwt';
+import axios from '../utils/axiosInstance';
 
-export const getServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(context.req, context.res, {});
+export const getServerSideProps = async context => {
+  const session = (await getServerSession(context.req, context.res, {})) as any;
+  const token = await getToken({ req: context.req }); 
+
+  
 
   if (!session) {
     return {
@@ -21,12 +28,21 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      session,
+      data: {
+        user: {
+          name: session.user.name,
+          email: session.user.email,
+          picture: session.user.image,
+        },
+        accessToken: token.accessToken,
+      },
     },
   };
-}
+};
 
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
+  axios.defaults.headers.common['Authorization'] = `${data.accessToken}`;
+
   const size = useWindowSize();
 
   let Days = [
@@ -81,6 +97,7 @@ const IndexPage = () => {
     token: 'token',
   }) as MeQuery$data;
 
+  console.log({me});
 
   return (
     <Layout>

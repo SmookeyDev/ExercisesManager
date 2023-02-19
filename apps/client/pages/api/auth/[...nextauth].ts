@@ -3,43 +3,56 @@ import GoogleProvider from "next-auth/providers/google";
 import { LoginOAuth } from "../../../lib/relay/user/LoginOAuthMutation";
 import { RelayEnvironment } from "../../../lib/relay/RelayEnvironment";
 import { commitMutation } from "../../../lib/relay/commitMutation";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import axios from "../../../utils/axiosInstance";
 
 export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      profile: (profile) => {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          picture: profile.picture
+        }
+      }
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    signIn: async (params) => {
-      const { account: { id_token: token } } = params;
-
-      const mutation = LoginOAuth as any;
-      const variables = { token };
-
-      const response: boolean | string = await commitMutation(RelayEnvironment, {
-        mutation,
-        variables
+    signIn: async ({ user, account }) => {
+      const { id_token } = account;
+      const response: any | string = await commitMutation(RelayEnvironment, {
+        mutation: LoginOAuth,
+        variables: { id_token }
       })
         .then((data: any) => {
-          const { loginWithOAuth: { me } } = data;
-          if (me) return true;
+          const { loginWithOAuth: { token } } = data;
+          if (token) {
+            account.accessToken = token;
+            return true;
+          }
           return '/auth/unauthorized';
         })
-        .catch(() => {
+        .catch((err) => {
           return '/auth/unauthorized';
         })
-
       return response;
     },
-    jwt: async ({ token, account, profile }) => {
-      if (account) token = { ...token, id_token: account.id_token };
+    jwt: async ({ token, user, account }) => {
+      if (user) {
+        const { id, ...rest } = user;
+        const payload = jwt.verify(String(account.accessToken), process.env.JWT_SECRET, { clockTimestamp: Math.floor(Date.now() / 1000) }) as JwtPayload;
+        return { ...rest, sub: id, exp: payload.exp, accessToken: account.accessToken }
+      }
+      
       return token;
     },
     session: async ({ session, token }) => {
-      return { ...session, user: { ...session.user, id_token: token.id_token } };
+      return session;
     }
   }
 })

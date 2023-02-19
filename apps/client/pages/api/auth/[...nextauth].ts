@@ -48,11 +48,13 @@ export default NextAuth({
         const payload = jwt.verify(String(account.accessToken), process.env.JWT_SECRET, { clockTimestamp: Math.floor(Date.now() / 1000) }) as JwtPayload;
         return { ...rest, sub: id, exp: payload.exp, accessToken: account.accessToken }
       }
-      
+
+      if (token && token.exp && Number(token?.exp) < Math.floor(Date.now() / 1000)) return {};
+
       return token;
     },
-    session: async ({ session, token }) => {
-      return session;
+    session: async ({ session }) => {
+      return session
     }
   }
 })

@@ -15,8 +15,6 @@ export const getServerSideProps = async context => {
   const session = (await getServerSession(context.req, context.res, {})) as any;
   const token = await getToken({ req: context.req }); 
 
-  
-
   if (!session) {
     return {
       redirect: {
@@ -40,9 +38,7 @@ export const getServerSideProps = async context => {
   };
 };
 
-const IndexPage = ({ data }) => {
-  axios.defaults.headers.common['Authorization'] = `${data.accessToken}`;
-
+const IndexPage = ({ data, pageProps }) => {
   const size = useWindowSize();
 
   let Days = [

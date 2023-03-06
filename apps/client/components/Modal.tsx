@@ -1,19 +1,22 @@
-import { Tab, Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, ReactNode } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface Props {
+  children: ReactNode;
   isOpen: boolean;
-  setOpen: () => void;
+  setOpen: (isOpen: boolean) => void;
 }
 
-const CreateTabs: React.FC<Props> = ({ isOpen, setOpen }) => {
+const CreateTabs: React.FC<Props> = ({ children, isOpen, setOpen }) => {
+  const handleOpen = () => setOpen(!isOpen);
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 overflow-hidden"
-        onClose={setOpen}
+        onClose={handleOpen}
       >
         <div className="absolute inset-0 overflow-hidden">
           <Transition.Child
@@ -52,43 +55,14 @@ const CreateTabs: React.FC<Props> = ({ isOpen, setOpen }) => {
                     <button
                       type="button"
                       className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                      onClick={() => setOpen()}
+                      onClick={() => handleOpen()}
                     >
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>
                 <div className="flex h-full flex-col overflow-y-scroll bg-neutral-900 border border-neutral-700 rounded-2xl py-6 shadow-xl">
-                  <div className="relative flex-1 px-4 sm:px-6">
-                    <Tab.Group>
-                      <Tab.List className="flex p-1 space-x-1 bg-neutral-900 border border-neutral-700 rounded-md">
-                        <Tab
-                          className={({ selected }) =>
-                            `${
-                              selected
-                                ? 'text-neutral-300'
-                                : 'text-neutral-400 '
-                            } w-full py-2.5 text-base font-bold border-r border-neutral-700`
-                          }
-                        >
-                          <a>Criar Treino</a>
-                        </Tab>
-                        <Tab
-                          className={({ selected }) =>
-                            `${
-                              selected ? 'text-neutral-300' : 'text-neutral-400'
-                            } w-full py-2.5 text-base font-bold`
-                          }
-                        >
-                          <a>Criar Exercício</a>
-                        </Tab>
-                      </Tab.List>
-                      <Tab.Panels className="mt-2">
-                        <Tab.Panel>oi</Tab.Panel>
-                        <Tab.Panel>oi2</Tab.Panel>
-                      </Tab.Panels>
-                    </Tab.Group>
-                  </div>
+                  <div className="relative flex-1 px-4 sm:px-6">{children}</div>
                 </div>
               </div>
             </Transition.Child>

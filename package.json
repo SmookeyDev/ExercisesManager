@@ -16,7 +16,9 @@
     "build:client": "yarn workspace @exercises-manager/client build",
     "start:server": "yarn workspace @exercises-manager/server start",
     "start:client": "yarn workspace @exercises-manager/client start",
-    "build": "yarn build:server && yarn build:client",
+    "generateSchema": "yarn workspace @exercises-manager/server generateSchema",
+    "relayCompiler": "yarn workspace @exercises-manager/client relay",
+    "build": "yarn generateSchema && yarn relayCompiler && yarn build:server && yarn build:client",
     "start": "pm2 start ecosystem.config.js"
   }
 }

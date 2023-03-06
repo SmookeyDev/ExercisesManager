@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cdbf189221ccb93f772988b279a3faab>>
+ * @generated SignedSource<<a1cbe7884e91fa61fb6ca47f07a3d434>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,16 +10,11 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type LoginOAuthMutation$variables = {
-  token: string;
+  id_token: string;
 };
 export type LoginOAuthMutation$data = {
   readonly loginWithOAuth: {
-    readonly me: {
-      readonly email: string | null;
-      readonly id: string;
-      readonly name: string | null;
-      readonly picture: string | null;
-    } | null;
+    readonly token: string;
   } | null;
 };
 export type LoginOAuthMutation = {
@@ -32,7 +27,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "token"
+    "name": "id_token"
   }
 ],
 v1 = [
@@ -43,8 +38,8 @@ v1 = [
         "fields": [
           {
             "kind": "Variable",
-            "name": "token",
-            "variableName": "token"
+            "name": "id_token",
+            "variableName": "id_token"
           }
         ],
         "kind": "ObjectValue",
@@ -59,40 +54,8 @@ v1 = [
       {
         "alias": null,
         "args": null,
-        "concreteType": "User",
-        "kind": "LinkedField",
-        "name": "me",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "email",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "picture",
-            "storageKey": null
-          }
-        ],
+        "kind": "ScalarField",
+        "name": "token",
         "storageKey": null
       }
     ],
@@ -117,16 +80,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "27322a2c09c750e5e074b22bf60d97b5",
+    "cacheID": "bf1b99ea9746775ef63232cc027339f6",
     "id": null,
     "metadata": {},
     "name": "LoginOAuthMutation",
     "operationKind": "mutation",
-    "text": "mutation LoginOAuthMutation(\n  $token: String!\n) {\n  loginWithOAuth(input: {token: $token}) {\n    me {\n      id\n      name\n      email\n      picture\n    }\n  }\n}\n"
+    "text": "mutation LoginOAuthMutation(\n  $id_token: String!\n) {\n  loginWithOAuth(input: {id_token: $id_token}) {\n    token\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "de2fe65411f2dc3694a0dd9e9b550f88";
+(node as any).hash = "19c3855466ff83491de72d4eb47a8a63";
 
 export default node;

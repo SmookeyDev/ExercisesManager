@@ -1,6 +1,6 @@
 interface Props {
   isOpen: boolean;
-  setOpen: () => void;
+  setOpen: (isOpen: boolean) => void;
 }
 
 const ExerciseDetails: React.FC<Props> = ({ isOpen, setOpen }) => {

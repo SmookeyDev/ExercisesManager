@@ -2,10 +2,10 @@ import mongoose, { Schema, Types, Document } from 'mongoose';
 
 export interface TrainingExercise {
     exercise_id: Types.ObjectId;
-    reps: number;
+    reps?: number;
     sets: number;
-    weight: number;
-    rest: number;
+    weight?: number;
+    rest?: number;
 }
 
 export interface Training {
@@ -21,6 +21,10 @@ export interface TrainingDocument extends Training, Document { }
 
 const TrainingSchema: Schema = new Schema(
     {
+        id: {
+            type: Schema.Types.ObjectId,
+            required: false,
+        },
         name: {
             type: String,
             required: true,
@@ -48,7 +52,7 @@ const TrainingSchema: Schema = new Schema(
                 },
                 reps: {
                     type: Number,
-                    required: true,
+                    required: false,
                 },
                 sets: {
                     type: Number,
@@ -56,11 +60,11 @@ const TrainingSchema: Schema = new Schema(
                 },
                 weight: {
                     type: Number,
-                    required: true,
+                    required: false,
                 },
                 rest: {
                     type: Number,
-                    required: true,
+                    required: false,
                 },
             },
         ],

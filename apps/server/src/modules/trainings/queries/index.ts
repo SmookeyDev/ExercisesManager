@@ -1,1 +1,1 @@
-export * from './ListTrainings';
+export * from './allTrainings';

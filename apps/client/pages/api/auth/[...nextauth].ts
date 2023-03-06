@@ -1,10 +1,9 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
-import { LoginOAuth } from "../../../lib/relay/user/LoginOAuthMutation";
-import { RelayEnvironment } from "../../../lib/relay/RelayEnvironment";
-import { commitMutation } from "../../../lib/relay/commitMutation";
+import { LoginOAuth } from "../../../relay/user/LoginOAuthMutation";
+import { RelayEnvironment } from "../../../relay/RelayEnvironment";
+import { commitMutation } from "../../../relay/commitMutation";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import axios from "../../../utils/axiosInstance";
 
 export default NextAuth({
   providers: [
@@ -48,11 +47,13 @@ export default NextAuth({
         const payload = jwt.verify(String(account.accessToken), process.env.JWT_SECRET, { clockTimestamp: Math.floor(Date.now() / 1000) }) as JwtPayload;
         return { ...rest, sub: id, exp: payload.exp, accessToken: account.accessToken }
       }
-      
+
+      if (token && token.exp && Number(token?.exp) < Math.floor(Date.now() / 1000)) return {};
+
       return token;
     },
     session: async ({ session, token }) => {
-      return session;
+      return {...session, accessToken: token.accessToken}
     }
   }
 })

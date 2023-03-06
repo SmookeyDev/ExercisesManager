@@ -2,7 +2,7 @@ import { graphql } from 'react-relay';
 
 export const ListTrainingsQuery = graphql`
 query ListTrainingsQuery {
-    ListTrainings {
+    allTrainings {
         id
         name
         description

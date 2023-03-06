@@ -11,8 +11,21 @@ type Query {
     ids: [ID!]!
   ): [Node]!
   me: User
-  ListExercises: Exercise
-  ListTrainings: Training
+  allExercises(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+    search: String
+  ): ExerciseConnectionConnection!
+  allTrainings: Training
 }
 
 """An object with an ID"""
@@ -32,6 +45,79 @@ type User implements Node {
   provider: String
 }
 
+"""A connection to a list of items."""
+type ExerciseConnectionConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ExerciseConnectionEdge]!
+}
+
+"""A connection to a list of items."""
+interface Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""An edge in a connection."""
+type ExerciseConnectionEdge {
+  """The item at the end of the edge."""
+  node: Exercise
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
 """Exercise data"""
 type Exercise implements Node {
   """The ID of an object"""
@@ -40,7 +126,7 @@ type Exercise implements Node {
   muscle_group: String
   description: String
   video_url: String
-  owner_id: String
+  owner: String
 }
 
 type Training implements Node {
@@ -109,6 +195,6 @@ input ExerciseInput {
   exercise_id: ID!
   reps: Int
   sets: Int!
-  weight: Float!
-  rest: Int!
+  weight: Float
+  rest: Int
 }

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6c3fa82b99b138514de32c9e06231715>>
+ * @generated SignedSource<<8f0e2c9d59191a0567b8d56e82425d2b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,29 +13,9 @@ export type MeQuery$variables = {};
 export type MeQuery$data = {
   readonly me: {
     readonly email: string | null;
-    readonly exercises: {
-      readonly description: string | null;
-      readonly muscle_group: string | null;
-      readonly name: string | null;
-      readonly reps: string | null;
-      readonly series: string | null;
-      readonly video_url: string | null;
-    } | null;
-    readonly name: string | null;
+    readonly firstName: string | null;
+    readonly lastName: string | null;
     readonly picture: string | null;
-    readonly trainings: {
-      readonly description: string | null;
-      readonly executed_days: string | null;
-      readonly exercises: {
-        readonly description: string | null;
-        readonly muscle_group: string | null;
-        readonly name: string | null;
-        readonly reps: string | null;
-        readonly series: string | null;
-        readonly video_url: string | null;
-      } | null;
-      readonly name: string | null;
-    } | null;
   } | null;
 };
 export type MeQuery = {
@@ -48,105 +28,28 @@ var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "firstName",
   "storageKey": null
 },
 v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "email",
+  "name": "lastName",
   "storageKey": null
 },
 v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "picture",
+  "name": "email",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "muscle_group",
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "description",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "video_url",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "series",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "reps",
-  "storageKey": null
-},
-v8 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Exercise",
-  "kind": "LinkedField",
-  "name": "exercises",
-  "plural": false,
-  "selections": [
-    (v0/*: any*/),
-    (v3/*: any*/),
-    (v4/*: any*/),
-    (v5/*: any*/),
-    (v6/*: any*/),
-    (v7/*: any*/)
-  ],
-  "storageKey": null
-},
-v9 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "executed_days",
-  "storageKey": null
-},
-v10 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v11 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Exercise",
-  "kind": "LinkedField",
-  "name": "exercises",
-  "plural": false,
-  "selections": [
-    (v0/*: any*/),
-    (v3/*: any*/),
-    (v4/*: any*/),
-    (v5/*: any*/),
-    (v6/*: any*/),
-    (v7/*: any*/),
-    (v10/*: any*/)
-  ],
+  "name": "picture",
   "storageKey": null
 };
 return {
@@ -167,22 +70,7 @@ return {
           (v0/*: any*/),
           (v1/*: any*/),
           (v2/*: any*/),
-          (v8/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Training",
-            "kind": "LinkedField",
-            "name": "trainings",
-            "plural": false,
-            "selections": [
-              (v0/*: any*/),
-              (v4/*: any*/),
-              (v9/*: any*/),
-              (v8/*: any*/)
-            ],
-            "storageKey": null
-          }
+          (v3/*: any*/)
         ],
         "storageKey": null
       }
@@ -207,40 +95,30 @@ return {
           (v0/*: any*/),
           (v1/*: any*/),
           (v2/*: any*/),
-          (v11/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "Training",
-            "kind": "LinkedField",
-            "name": "trainings",
-            "plural": false,
-            "selections": [
-              (v0/*: any*/),
-              (v4/*: any*/),
-              (v9/*: any*/),
-              (v11/*: any*/),
-              (v10/*: any*/)
-            ],
+            "kind": "ScalarField",
+            "name": "id",
             "storageKey": null
-          },
-          (v10/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "95eeb671e7234128dc39e8247b363e56",
+    "cacheID": "1732124e233ffdf4a2497c9982c8ef81",
     "id": null,
     "metadata": {},
     "name": "MeQuery",
     "operationKind": "query",
-    "text": "query MeQuery {\n  me {\n    name\n    email\n    picture\n    exercises {\n      name\n      muscle_group\n      description\n      video_url\n      series\n      reps\n      id\n    }\n    trainings {\n      name\n      description\n      executed_days\n      exercises {\n        name\n        muscle_group\n        description\n        video_url\n        series\n        reps\n        id\n      }\n      id\n    }\n    id\n  }\n}\n"
+    "text": "query MeQuery {\n  me {\n    firstName\n    lastName\n    email\n    picture\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "bbf870ccd32172add1b30ce5ce509f2c";
+(node as any).hash = "47c47ce2643c140a0933d05d4d58716b";
 
 export default node;

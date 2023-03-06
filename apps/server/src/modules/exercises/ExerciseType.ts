@@ -1,5 +1,5 @@
 import { connectionDefinitions } from '@entria/graphql-mongo-helpers';
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
@@ -27,9 +27,10 @@ export const ExerciseType = new GraphQLObjectType<Exercise>({
             type: GraphQLString,
             resolve: exercise => exercise.video_url,
         },
-        owner_id: {
+        owner: {
             type: GraphQLString,
             resolve: exercise => exercise.owner_id,
+            ref: 'User'
         }
     }),
     interfaces: () => [nodeInterface],

@@ -1,15 +1,5 @@
 import { Variables } from 'react-relay';
-import axios from '../../utils/axiosInstance';
-
-interface ISession {
-  user: {
-    name: string;
-    email: string;
-    picture: string;
-  };
-  accessToken: string;
-  expires: string;
-}
+import axios from '../utils/axiosInstance';
 
 export const fetchGraphQL = async (
   query: string,

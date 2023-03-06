@@ -19,10 +19,10 @@ export const ExerciseInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLInt)
         },
         weight: {
-            type: new GraphQLNonNull(GraphQLFloat)
+            type: GraphQLFloat
         },
         rest: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: GraphQLInt
         }
     })
 })

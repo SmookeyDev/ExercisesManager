@@ -1,5 +1,5 @@
-import { connectionDefinitions, connectionArgs, withFilter } from '@entria/graphql-mongo-helpers';
-import { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLList, GraphQLInt, GraphQLFloat } from 'graphql';
+import { connectionDefinitions } from '@entria/graphql-mongo-helpers';
+import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLFloat } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';

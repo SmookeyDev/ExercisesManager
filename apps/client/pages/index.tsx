@@ -3,13 +3,7 @@ import { CheckIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import useWindowSize from '../hooks/useWindowSize';
 import { getServerSession } from 'next-auth/next';
-import { MeQuery } from '../lib/relay/user/MeQuery';
-import { MeQuery$data } from '../__generated__/MeQuery.graphql';
-import { useMutation, useLazyLoadQuery } from 'react-relay';
-import { CreateOrUpdateExerciseMutation } from '../lib/relay/exercises/CreateOrUpdateExerciseMutation';
-import { useEffect } from 'react';
 import { getToken } from 'next-auth/jwt';
-import axios from '../utils/axiosInstance';
 
 export const getServerSideProps = async context => {
   const session = (await getServerSession(context.req, context.res, {})) as any;
@@ -89,11 +83,6 @@ const IndexPage = ({ data, pageProps }) => {
 
   if (size.width < 768) Days = Days.slice(-4);
 
-  const { me } = useLazyLoadQuery(MeQuery, {
-    token: 'token',
-  }) as MeQuery$data;
-
-  console.log({me});
 
   return (
     <Layout>

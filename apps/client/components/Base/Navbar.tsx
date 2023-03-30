@@ -18,8 +18,7 @@ const Navbar: React.FC<Props> = ({
   setUserDetailsIsOpen
 }) => {
   const { data: session } = useSession();
-
-
+  
   return (
     <nav className="flex flex-row justify-between py-4 max-sm:py-8">
       <div className="font-bold font-sans text-xl text-white tracking-wider">

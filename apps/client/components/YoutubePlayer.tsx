@@ -4,7 +4,6 @@ import { isYoutubeLink, getVideoId } from '../utils/youtube';
 import '@vime/core/themes/default.css';
 
 const YoutubePlayer = ({ videoId }) => {
-
   if (isYoutubeLink(videoId)) videoId = getVideoId(videoId);
 
   return (

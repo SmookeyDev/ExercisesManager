@@ -3,14 +3,18 @@ import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
-import { Exercise } from './ExerciseModel';
+import { ExerciseDocument } from './ExerciseModel';
 import { load } from './ExerciseLoader';
 
-export const ExerciseType = new GraphQLObjectType<Exercise>({
+export const ExerciseType = new GraphQLObjectType<ExerciseDocument>({
     name: 'Exercise',
     description: 'Exercise data',
     fields: () => ({
         id: globalIdField('Exercise'),
+        _id: {
+            type: GraphQLID,
+            resolve: exercise => exercise._id,
+        },
         name: {
             type: GraphQLString,
             resolve: exercise => exercise.name,

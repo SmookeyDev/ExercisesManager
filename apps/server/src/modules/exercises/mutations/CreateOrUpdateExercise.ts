@@ -11,7 +11,7 @@ import { mutationWithClientMutationId } from 'graphql-relay';
 export const CreateOrUpdateExercise = mutationWithClientMutationId({
     name: 'CreateOrUpdateExercise',
     inputFields: {
-        id: {
+        _id: {
             type: GraphQLID,
         },
         name: {
@@ -27,25 +27,19 @@ export const CreateOrUpdateExercise = mutationWithClientMutationId({
             type: GraphQLString,
         },
     },
-    mutateAndGetPayload: async ({ id, name, muscle_group, description, video_url }, { user }) => {
+    mutateAndGetPayload: async ({ _id, name, muscle_group, description, video_url }, { user }) => {
         if (!user) throw new Error('USER_NOT_AUTHENTICATED');
 
-        if (id) {
-            const exercise = await ExerciseModel.findById(id);
+        if (_id) {
+            const exercise = await ExerciseModel.findOne({ _id: _id });
 
             if (!exercise) throw new Error('EXERCISE_NOT_FOUND');
             if (exercise.owner_id.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
 
-            const updatedExercise = await ExerciseModel.findByIdAndUpdate(id, {
-                name,
-                muscle_group,
-                description,
-                video_url
-            }, { new: true });
-
+            const updatedExercise = await ExerciseModel.updateOne({ _id: _id }, { name, muscle_group, description, video_url });
             return updatedExercise;
         }
-        
+
         const newExercise = await ExerciseModel.create({
             name,
             muscle_group,

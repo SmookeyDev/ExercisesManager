@@ -136,7 +136,7 @@ type Training implements Node {
   name: String
   description: String
   executed_days: Int
-  owner_id: String
+  owner: String
   exercises: [TrainingExercise]
 }
 

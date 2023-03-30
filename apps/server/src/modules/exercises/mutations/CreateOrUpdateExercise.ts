@@ -34,7 +34,7 @@ export const CreateOrUpdateExercise = mutationWithClientMutationId({
             const exercise = await ExerciseModel.findOne({ _id: _id });
 
             if (!exercise) throw new Error('EXERCISE_NOT_FOUND');
-            if (exercise.owner_id.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
+            if (exercise.owner.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
 
             const updatedExercise = await ExerciseModel.updateOne({ _id: _id }, { name, muscle_group, description, video_url });
             return updatedExercise;
@@ -45,7 +45,7 @@ export const CreateOrUpdateExercise = mutationWithClientMutationId({
             muscle_group,
             description,
             video_url,
-            owner_id: user._id
+            owner: user._id
         });
 
         return newExercise;

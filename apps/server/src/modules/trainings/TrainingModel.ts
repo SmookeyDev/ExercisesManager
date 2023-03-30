@@ -12,7 +12,7 @@ export interface Training {
     name: string;
     description: string;
     executed_days: number;
-    owner_id: Types.ObjectId;
+    owner: Types.ObjectId;
     exercises: TrainingExercise[]
     lastExecuted?: Date;
 }
@@ -38,7 +38,7 @@ const TrainingSchema: Schema = new Schema(
             required: false,
             default: 0,
         },
-        owner_id: {
+        owner: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',

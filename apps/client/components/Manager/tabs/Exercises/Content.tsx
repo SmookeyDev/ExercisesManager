@@ -72,7 +72,6 @@ const ExercisesTabContent: React.FC<Content> = ({
         _id,
       },
       onCompleted: (data: any) => {
-        console.log(data);
         if (!data?.DeleteExercise?.deleted) {
           Toast.error('Erro ao deletar exercício!');
           return;

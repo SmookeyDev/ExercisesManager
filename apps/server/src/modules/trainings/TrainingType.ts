@@ -56,9 +56,9 @@ export const TrainingType = new GraphQLObjectType<Training>({
             type: GraphQLInt,
             resolve: training => training.executed_days,
         },
-        owner_id: {
+        owner: {
             type: GraphQLString,
-            resolve: training => training.owner_id,
+            resolve: training => training.owner,
         },
         exercises: {
             type: new GraphQLList(TrainingExerciseType),

@@ -32,7 +32,7 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
             const training = await TrainingModel.findById(id);
 
             if (!training) throw new Error('TRAINING_NOT_FOUND');
-            if (training.owner_id.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
+            if (training.owner.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
 
             const updatedTraining = await TrainingModel.findByIdAndUpdate(id, {
                 name,
@@ -47,7 +47,7 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
             name,
             description,
             exercises,
-            owner_id: user._id
+            owner: user._id
         });
 
         return newTraining;

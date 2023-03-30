@@ -4,5 +4,5 @@ import { TrainingModel } from '../TrainingModel';
 
 export const allTrainings: GraphQLFieldConfig<any, any, any> = {
     type: TrainingType,
-    resolve: (_root, _args, context) => TrainingModel.find({ owner_id: context?.user._id }),
+    resolve: (_root, _args, context) => TrainingModel.find({ owner: context?.user._id }),
 };

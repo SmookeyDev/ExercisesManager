@@ -20,7 +20,7 @@ export const DeleteExercise = mutationWithClientMutationId({
         const exercise = await ExerciseModel.findOne({ _id: _id });
 
         if (!exercise) throw new Error('EXERCISE_NOT_FOUND');
-        if (exercise.owner_id.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
+        if (exercise.owner.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
 
         await ExerciseModel.deleteOne({ _id: _id });
         return true;

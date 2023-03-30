@@ -33,7 +33,7 @@ export const ExerciseType = new GraphQLObjectType<ExerciseDocument>({
         },
         owner: {
             type: GraphQLString,
-            resolve: exercise => exercise.owner_id,
+            resolve: exercise => exercise.owner,
             ref: 'User'
         }
     }),

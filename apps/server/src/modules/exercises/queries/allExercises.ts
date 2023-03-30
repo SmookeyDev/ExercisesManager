@@ -16,7 +16,10 @@ export const allExercises: GraphQLFieldConfig<any, any, any> = {
         if (!context?.user) throw new Error('USER_NOT_AUTHENTICATED');
         return ExerciseLoader.loadAll(context, withFilter(
             _args,
-            _args.search ? { name: { $regex: _args.search, $options: 'i' } } : {}
+            {
+                ...(_args.search ? { name: { $regex: _args.search, $options: 'i' } } : {}),
+                "owner": context?.user._id,
+            }
         ));
     }
 };

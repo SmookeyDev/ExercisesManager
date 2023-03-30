@@ -5,7 +5,7 @@ export interface Exercise {
     muscle_group: string;
     description?: string;
     video_url?: string;
-    owner_id: Types.ObjectId;
+    owner: Types.ObjectId;
 }
 
 export interface ExerciseDocument extends Exercise, Document { }
@@ -28,7 +28,7 @@ const ExerciseSchema: Schema = new Schema(
             type: String,
             required: false,
         },
-        owner_id: {
+        owner: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',

@@ -17,7 +17,7 @@ export const AllExercisesPaginationFragment = graphql`
       }
       edges {
         node {
-          id
+          _id
           name
           muscle_group
           description

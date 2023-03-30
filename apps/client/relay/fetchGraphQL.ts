@@ -9,7 +9,12 @@ export const fetchGraphQL = async (
     query,
     variables,
   });
-
-  const response = await axios.post('', body);
-  return response?.data;
+  
+  try {
+    const response = await axios.post('', body);
+    return response?.data;
+  }
+  catch (err) {
+    return err.response?.data;
+  }
 };

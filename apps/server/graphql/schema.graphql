@@ -122,6 +122,7 @@ type ExerciseConnectionEdge {
 type Exercise implements Node {
   """The ID of an object"""
   id: ID!
+  _id: ID
   name: String
   muscle_group: String
   description: String
@@ -151,6 +152,7 @@ type TrainingExercise {
 type Mutation {
   loginWithOAuth(input: LoginWithOAuthInput!): LoginWithOAuthPayload
   CreateOrUpdateExercise(input: CreateOrUpdateExerciseInput!): CreateOrUpdateExercisePayload
+  DeleteExercise(input: DeleteExerciseInput!): DeleteExercisePayload
   CreateOrUpdateTraining(input: CreateOrUpdateTrainingInput!): CreateOrUpdateTrainingPayload
 }
 
@@ -170,11 +172,21 @@ type CreateOrUpdateExercisePayload {
 }
 
 input CreateOrUpdateExerciseInput {
-  id: ID
+  _id: ID
   name: String!
   muscle_group: String!
   description: String
   video_url: String
+  clientMutationId: String
+}
+
+type DeleteExercisePayload {
+  deleted: Boolean
+  clientMutationId: String
+}
+
+input DeleteExerciseInput {
+  _id: ID
   clientMutationId: String
 }
 

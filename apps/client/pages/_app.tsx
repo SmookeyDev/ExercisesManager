@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { RelayEnvironment } from '../relay/RelayEnvironment';
 import axios from '../utils/axiosInstance';
+import 'toastify-js/src/toastify.css';
 
 type AppPropsWithContext = AppProps & {
   session: Session

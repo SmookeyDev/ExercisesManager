@@ -4,17 +4,19 @@ import {
 } from 'react-relay';
 
 export const commitMutation = (environment: Environment, options: any) => {
+    const { onCompleted, onError, ...rest} = options;
+
     return new Promise((resolve, reject) => {
         commitMutationDefault(environment, {
-            ...options,
-            onCompleted: (response, errors) => {
+            ...rest,
+            onCompleted: onCompleted || ((response, errors) => {
                 if (errors) {
                     reject(errors);
                 }
 
                 resolve(response);
-            },
-            onError: reject,
+            }),
+            onError: onError || reject,
         });
     });
 }

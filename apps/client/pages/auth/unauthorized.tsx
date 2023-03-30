@@ -1,8 +1,8 @@
-import { unstable_getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 
 export const getServerSideProps = async context => {
-  const session = await unstable_getServerSession(context.req, context.res, {});
+  const session = await getServerSession(context.req, context.res, {});
 
   if (session) {
     return {

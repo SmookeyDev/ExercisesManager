@@ -25,7 +25,7 @@ export const loginWithOAuth = mutationWithClientMutationId({
 
         if (!user) throw new Error('USER_NOT_FOUND OR ERROR_CREATING_USER');
  
-        return jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        return jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
     },
     outputFields: {
         token: {

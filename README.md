@@ -17,7 +17,7 @@
 
 ---
 
-## 📝 Tabela de conteúdos
+## 📝 Table of contents
 
 - [About](#about)
 - [Requirements to run development environment](#developmentrequirements)

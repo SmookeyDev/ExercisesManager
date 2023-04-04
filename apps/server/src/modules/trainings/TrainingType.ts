@@ -1,16 +1,16 @@
 import { connectionDefinitions } from '@entria/graphql-mongo-helpers';
-import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLFloat } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLFloat, GraphQLID } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { registerTypeLoader, nodeInterface } from '../graphql/typeRegister';
-import { Training } from './TrainingModel';
+import { Training, TrainingDocument } from './TrainingModel';
 import { load } from './TrainingLoader';
 
 import { TrainingExercise } from './TrainingModel';
 import { ExerciseType } from '../exercises/ExerciseType';
 import { ExerciseModel } from '../exercises/ExerciseModel';
 
-export const TrainingExerciseType = new GraphQLObjectType<TrainingExercise>({
+const TrainingExerciseType = new GraphQLObjectType<TrainingExercise>({
     name: 'TrainingExercise',
     fields: () => ({
         exercise_id: {
@@ -40,10 +40,14 @@ export const TrainingExerciseType = new GraphQLObjectType<TrainingExercise>({
     }),
 })
 
-export const TrainingType = new GraphQLObjectType<Training>({
+export const TrainingType = new GraphQLObjectType<TrainingDocument>({
     name: 'Training',
     fields: () => ({
         id: globalIdField('Training'),
+        _id: {
+            type: GraphQLID,
+            resolve: training => training._id,
+        },
         name: {
             type: GraphQLString,
             resolve: training => training.name,

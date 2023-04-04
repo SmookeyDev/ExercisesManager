@@ -12,7 +12,7 @@ import { ExerciseInputType } from '../../exercises/ExerciseInputType';
 export const CreateOrUpdateTraining = mutationWithClientMutationId({
     name: 'CreateOrUpdateTraining',
     inputFields: {
-        id: {
+        _id: {
             type: GraphQLID
         },
         name: {
@@ -25,32 +25,37 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
             type: new GraphQLList(ExerciseInputType)
         }
     },
-    mutateAndGetPayload: async ({ id, name, description, exercises }, { user }) => {
-        if (!user) throw new Error('USER_NOT_AUTHENTICATED');
+    mutateAndGetPayload: async ({ _id, name, description, exercises }, { user }) => {
+        try{
+            if (!user) throw new Error('USER_NOT_AUTHENTICATED');
 
-        if (id) {
-            const training = await TrainingModel.findById(id);
-
-            if (!training) throw new Error('TRAINING_NOT_FOUND');
-            if (training.owner.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
-
-            const updatedTraining = await TrainingModel.findByIdAndUpdate(id, {
+            if (_id) {
+                const training = await TrainingModel.findById(_id);
+    
+                if (!training) throw new Error('TRAINING_NOT_FOUND');
+                if (training.owner.toString() !== user._id.toString()) throw new Error('USER_NOT_AUTHORIZED');
+    
+                const updatedTraining = await TrainingModel.findByIdAndUpdate(_id, {
+                    name,
+                    description,
+                    exercises
+                }, { new: true });
+    
+                return updatedTraining;
+            }
+    
+            const newTraining = await TrainingModel.create({
                 name,
                 description,
-                exercises
-            }, { new: true });
-
-            return updatedTraining;
+                exercises,
+                owner: user._id
+            });
+    
+            return newTraining;
         }
-
-        const newTraining = await TrainingModel.create({
-            name,
-            description,
-            exercises,
-            owner: user._id
-        });
-
-        return newTraining;
+        catch(err){
+            console.log(err);
+        }
     },
     outputFields: {
         training: {

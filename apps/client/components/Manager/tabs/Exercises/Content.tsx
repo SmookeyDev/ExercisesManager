@@ -17,6 +17,7 @@ import { Disclosure } from '@headlessui/react';
 import debounce from '../../../../utils/debounce';
 import dynamic from 'next/dynamic';
 import Toast from '../../../../utils/toastify';
+import TextWithLabel from '../../../TextWithLabel';
 const YoutubePlayer = dynamic(() => import('../../../YoutubePlayer'), {
   ssr: false,
 });
@@ -76,7 +77,6 @@ const ExercisesTabContent: React.FC<Content> = ({
           Toast.error('Erro ao deletar exercício!');
           return;
         }
-
         refetch({ search }, { fetchPolicy: 'store-and-network' });
         Toast.success('Exercício deletado com sucesso!');
       },
@@ -134,9 +134,7 @@ const ExercisesTabContent: React.FC<Content> = ({
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel className="px-2 space-y-4">
-                      <span className="text-neutral-300 text-sm">
-                        {exercise.node.description}
-                      </span>
+                      <TextWithLabel label="Descrição" text={exercise.node.description}/>
                       {exercise.node.video_url && (
                         <YoutubePlayer videoId={exercise.node.video_url} />
                       )}

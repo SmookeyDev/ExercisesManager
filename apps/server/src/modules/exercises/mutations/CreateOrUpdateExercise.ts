@@ -3,7 +3,6 @@ import {
     GraphQLID,
     GraphQLString
 } from 'graphql';
-
 import { ExerciseType } from '../ExerciseType';
 import { ExerciseModel } from '../ExerciseModel';
 import { mutationWithClientMutationId } from 'graphql-relay';

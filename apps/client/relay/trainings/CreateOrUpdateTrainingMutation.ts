@@ -1,15 +1,15 @@
 import { graphql } from 'react-relay';
 
 export const CreateOrUpdateTrainingMutation = graphql`
-mutation CreateOrUpdateTrainingMutation($id: ID, $name: String!, $description: String!, $exercises: [ExerciseInput!]!) {
+mutation CreateOrUpdateTrainingMutation($_id: ID, $name: String!, $description: String!, $exercises: [ExerciseInput!]!) {
     CreateOrUpdateTraining(input: {
-        id: $id,
+        _id: $_id,
         name: $name,
         description: $description,
         exercises: $exercises
     }) {
         training {
-            id
+            _id
             name
             description
             executed_days

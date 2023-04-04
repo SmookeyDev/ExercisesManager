@@ -13,7 +13,7 @@ export interface Training {
     description: string;
     executed_days: number;
     owner: Types.ObjectId;
-    exercises: TrainingExercise[]
+    exercises: any[]
     lastExecuted?: Date;
 }
 
@@ -31,7 +31,7 @@ const TrainingSchema: Schema = new Schema(
         },
         description: {
             type: String,
-            required: true,
+            required: false,
         },
         executed_days: {
             type: Number,

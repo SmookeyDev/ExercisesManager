@@ -18,14 +18,11 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
         name: {
             type: new GraphQLNonNull(GraphQLString)
         },
-        description: {
-            type: new GraphQLNonNull(GraphQLString)
-        },
         exercises: {
             type: new GraphQLList(ExerciseInputType)
         }
     },
-    mutateAndGetPayload: async ({ _id, name, description, exercises }, { user }) => {
+    mutateAndGetPayload: async ({ _id, name, exercises }, { user }) => {
         try{
             if (!user) throw new Error('USER_NOT_AUTHENTICATED');
 
@@ -37,7 +34,6 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
     
                 const updatedTraining = await TrainingModel.findByIdAndUpdate(_id, {
                     name,
-                    description,
                     exercises
                 }, { new: true });
     
@@ -46,7 +42,6 @@ export const CreateOrUpdateTraining = mutationWithClientMutationId({
     
             const newTraining = await TrainingModel.create({
                 name,
-                description,
                 exercises,
                 owner: user._id
             });

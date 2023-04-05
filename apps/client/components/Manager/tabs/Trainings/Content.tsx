@@ -125,7 +125,7 @@ const TrainingsTabContent: React.FC<Content> = ({
                             {training.node.exercises
                               .map(
                                 (exercise: any) =>
-                                  exercise.details.muscle_group,
+                                  exercise?.details?.muscle_group,
                               )
                               .filter(
                                 (value: any, index: number, self: any) =>
@@ -144,7 +144,6 @@ const TrainingsTabContent: React.FC<Content> = ({
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel className="px-2 space-y-4">
-                      <TextWithLabel label="Descrição" text={training.node.description}/>
                       <div className="flex flex-col space-y-2">
                         <span className="text-neutral-300 text-sm font-bold">
                           Exercícios
@@ -162,10 +161,10 @@ const TrainingsTabContent: React.FC<Content> = ({
                                   <div className="flex flex-row items-center px-2 space-x-2">
                                     <div className="flex flex-col">
                                       <div className="flex text-neutral-300 text-base font-bold space-x-2">
-                                        <a>{exercise.details.name} </a>
+                                        <a>{exercise?.details?.name} </a>
                                       </div>
                                       <a className="font-sans text-sm font-medium text-neutral-400">
-                                        {exercise.details.muscle_group}
+                                        {exercise?.details?.muscle_group}
                                       </a>
                                     </div>
                                   </div>
@@ -178,7 +177,6 @@ const TrainingsTabContent: React.FC<Content> = ({
                                   </Disclosure.Button>
                                 </div>
                                 <Disclosure.Panel className="flex flex-col px-2">
-                                  <TextWithLabel label="Descrição" text={exercise.details.description}/>
                                   <TextWithLabel label="Repetições" text={exercise.reps}/>
                                   <TextWithLabel label="Séries" text={exercise.sets}/>
                                   <TextWithLabel label="Peso" text={exercise.weight + "kg"}/>

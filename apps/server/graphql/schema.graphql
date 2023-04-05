@@ -25,7 +25,20 @@ type Query {
     last: Int
     search: String
   ): ExerciseConnectionConnection!
-  allTrainings: Training
+  allTrainings(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+    search: String
+  ): TrainingConnectionConnection!
 }
 
 """An object with an ID"""
@@ -130,11 +143,46 @@ type Exercise implements Node {
   owner: String
 }
 
+"""A connection to a list of items."""
+type TrainingConnectionConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TrainingConnectionEdge]!
+}
+
+"""An edge in a connection."""
+type TrainingConnectionEdge {
+  """The item at the end of the edge."""
+  node: Training
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
 type Training implements Node {
   """The ID of an object"""
   id: ID!
+  _id: ID
   name: String
-  description: String
   executed_days: Int
   owner: String
   exercises: [TrainingExercise]
@@ -154,6 +202,7 @@ type Mutation {
   CreateOrUpdateExercise(input: CreateOrUpdateExerciseInput!): CreateOrUpdateExercisePayload
   DeleteExercise(input: DeleteExerciseInput!): DeleteExercisePayload
   CreateOrUpdateTraining(input: CreateOrUpdateTrainingInput!): CreateOrUpdateTrainingPayload
+  DeleteTraining(input: DeleteTrainingInput!): DeleteTrainingPayload
 }
 
 type LoginWithOAuthPayload {
@@ -196,9 +245,8 @@ type CreateOrUpdateTrainingPayload {
 }
 
 input CreateOrUpdateTrainingInput {
-  id: ID
+  _id: ID
   name: String!
-  description: String!
   exercises: [ExerciseInput]
   clientMutationId: String
 }
@@ -209,4 +257,14 @@ input ExerciseInput {
   sets: Int!
   weight: Float
   rest: Int
+}
+
+type DeleteTrainingPayload {
+  deleted: Boolean
+  clientMutationId: String
+}
+
+input DeleteTrainingInput {
+  _id: ID
+  clientMutationId: String
 }

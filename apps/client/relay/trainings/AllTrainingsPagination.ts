@@ -19,7 +19,6 @@ export const AllTrainingsPaginationFragment = graphql`
         node {
             _id
             name
-            description
             executed_days
             exercises {
                 exercise_id

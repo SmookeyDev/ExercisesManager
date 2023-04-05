@@ -10,7 +10,6 @@ export interface TrainingExercise {
 
 export interface Training {
     name: string;
-    description: string;
     executed_days: number;
     owner: Types.ObjectId;
     exercises: any[]
@@ -28,10 +27,6 @@ const TrainingSchema: Schema = new Schema(
         name: {
             type: String,
             required: true,
-        },
-        description: {
-            type: String,
-            required: false,
         },
         executed_days: {
             type: Number,

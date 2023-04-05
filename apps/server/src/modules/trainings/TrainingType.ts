@@ -52,10 +52,6 @@ export const TrainingType = new GraphQLObjectType<TrainingDocument>({
             type: GraphQLString,
             resolve: training => training.name,
         },
-        description: {
-            type: GraphQLString,
-            resolve: training => training.description,
-        },
         executed_days: {
             type: GraphQLInt,
             resolve: training => training.executed_days,

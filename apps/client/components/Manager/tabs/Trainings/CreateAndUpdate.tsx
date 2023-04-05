@@ -29,10 +29,6 @@ type ExerciseItem = {
   rest?: number;
 };
 
-const classNames = (...classes: any) => {
-  return classes.filter(Boolean).join(' ');
-};
-
 const ExerciseItem: React.FC<{ data: any; index: number }> = ({
   data,
   index,
@@ -115,33 +111,16 @@ const ExerciseItem: React.FC<{ data: any; index: number }> = ({
                 <Combobox.Option
                   key={exercise._id}
                   value={exercise}
-                  className={({ active }) =>
-                    classNames(
-                      'relative cursor-default select-none py-2 pl-8 pr-4 border-neutral-700 border m-1.5 rounded-md',
-                      active
-                        ? 'bg-indigo-600 text-neutral-100'
-                        : 'text-neutral-300',
-                    )
-                  }
+                  className={({ active }) => `relative cursor-default select-none py-2 pl-8 pr-4 border-neutral-700 border m-1.5 rounded-md ${active ? 'bg-indigo-600 text-neutral-100' : 'text-neutral-300'}`}
                 >
                   {({ active, selected }) => (
                     <>
-                      <span
-                        className={classNames(
-                          'block truncate',
-                          selected && 'font-semibold',
-                        )}
-                      >
+                      <span className={`block truncate ${selected && 'font-semibold'}`}>
                         {exercise.name}
                       </span>
 
                       {selected && (
-                        <span
-                          className={classNames(
-                            'absolute inset-y-0 left-0 flex items-center pl-1.5',
-                            active ? 'text-white' : 'text-indigo-600',
-                          )}
-                        >
+                        <span className={`absolute inset-y-0 left-0 flex items-center pl-1.5 ${active ? 'text-white' : 'text-indigo-600'}`}>
                           <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       )}
@@ -216,7 +195,6 @@ const CreateAndUpdate: React.FC<{ data?: any; handleClose: () => void }> = ({
       variables: {
         _id: data?._id,
         name: formData?.name,
-        description: formData?.description,
         exercises,
       },
       onCompleted: () => {
@@ -270,13 +248,7 @@ const CreateAndUpdate: React.FC<{ data?: any; handleClose: () => void }> = ({
           placeholder="Nome"
           required
         />
-        <textarea
-          name="description"
-          id="description"
-          className="shadow-sm w-full sm:text-sm bg-neutral-900 border-neutral-700 px-4 rounded-md placeholder-neutral-500 text-neutral-300 resize-none"
-          placeholder="Descrição"
-          rows={4}
-        />
+
         <div className="space-y-2 pt-3 pb-2">
           <div className="flex flex-row justify-between items-center">
             <span className="text-neutral-300 text-sm font-bold">
